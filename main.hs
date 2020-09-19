@@ -22,7 +22,7 @@ sumSquareDiff :: Integer -> Integer
 sumSquareDiff n =
   (sum [1..n])^2 - sum [ x^2 | x <- [1..n] ]
 
-prop_Exercise2 n = Assignment2.sumSquareDiff n == sumSquareDiff n
+prop_Exercise2 n = n >= 1 ==> Assignment2.sumSquareDiff n == sumSquareDiff n
 
 -- Exercise 3
 
