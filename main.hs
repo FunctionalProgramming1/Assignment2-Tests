@@ -9,6 +9,8 @@ import qualified Assignment2
 import Test.QuickCheck -- see https://hackage.haskell.org/package/QuickCheck for
                        -- documentation if you want to write your own tests
 
+import Control.Monad(liftM)
+
 -- Tests
 
 -- Exercise 1
@@ -35,7 +37,18 @@ isMatch (c : s) (d : p)   = c==d && isMatch s p
 isMatch "" "" = True
 isMatch _ _ = False
 
-prop_Exercise3 s p = Assignment2.isMatch s p == isMatch s p
+newtype Exercise3String = Exercise3String String
+
+instance Show Exercise3String where
+  show (Exercise3String s) = show s
+
+instance Arbitrary Exercise3String where
+  arbitrary = liftM Exercise3String $ frequency
+                                        [ (1, arbitrary)
+                                        , (9, listOf $ elements ['a','b','c','*','?'])
+                                        ]
+
+prop_Exercise3 (Exercise3String s) (Exercise3String p) = Assignment2.isMatch s p == isMatch s p
 
 -- main
 
@@ -44,4 +57,4 @@ main = do
   putStrLn "Exercise 2:"
   quickCheck prop_Exercise2
   putStrLn "Exercise 3:"
-  quickCheck prop_Exercise3
+  quickCheck (withMaxSuccess 1000 prop_Exercise3)
