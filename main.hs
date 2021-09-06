@@ -11,6 +11,8 @@ import Test.QuickCheck -- see https://hackage.haskell.org/package/QuickCheck for
 
 import Control.Monad(liftM)
 
+import qualified Data.List
+
 -- Tests
 
 -- Exercise 1
